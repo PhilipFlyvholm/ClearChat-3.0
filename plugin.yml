@@ -1,0 +1,8 @@
+name: ClearChat
+main: me.phil14052.ClearChat3_0.ClearChat
+version: 1.0
+author: phil14052
+description: Clears the chat
+commands:
+  clearchat:
+    description: ClearChat Plugin Main Command
