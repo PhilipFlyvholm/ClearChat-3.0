@@ -2,30 +2,26 @@ package me.phil14052.ClearChat3_0.API.CustomEvents;
 
 import java.util.List;
 
+import me.phil14052.ClearChat3_0.API.ChatToggleType;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import me.phil14052.ClearChat3_0.API.ClearType;
-
-public class ChatClearEvent extends Event implements Cancellable{
+public class ChatToggleEvent extends Event implements Cancellable{
 	
 	private List<Player> players;
 	private boolean isCancelled = false;
 	private static final HandlerList handlers = new HandlerList();
-	private ClearType clearType;
-	private boolean withMessage = false;  
-	private int lines = 100;
+	private ChatToggleType chatToggleType;
 	/**
 	 * Player list can be null
 	 * */
-	public ChatClearEvent(ClearType ct, List<Player> players, boolean withMessage, int lines) {
+	public ChatToggleEvent(ChatToggleType ctt, List<Player> players) {
 	    this.isCancelled = false;
 	    this.players = players;
-	    this.clearType = ct;
-	    this.withMessage = withMessage;
-	    this.lines = lines;
+	    this.chatToggleType = ctt;
 	}
 	 
 	/**
@@ -35,7 +31,7 @@ public class ChatClearEvent extends Event implements Cancellable{
 	    return this.players;
 	}
 	/**
-	 * Use to get the first player or the player when using personal clear.
+	 * @return Use to get the first player or the player when using personal clear.
 	 */
 	public Player getFirstPlayer(){
 		return this.players.get(0);
@@ -64,25 +60,9 @@ public class ChatClearEvent extends Event implements Cancellable{
 	/**
 	 * @return the clearType
 	 */
-	public ClearType getClearType() {
-		return clearType;
+	public ChatToggleType getChatToggleType() {
+		return chatToggleType;
 	}
 	
-	public boolean isWithMessage(){
-		return withMessage;
-	}
 
-	/**
-	 * @return the lines
-	 */
-	public int getLines() {
-		return lines;
-	}
-
-	/**
-	 * @param lines the lines to set
-	 */
-	public void setLines(int lines) {
-		this.lines = lines;
-	}
 }

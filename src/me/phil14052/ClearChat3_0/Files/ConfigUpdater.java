@@ -25,6 +25,8 @@ public class ConfigUpdater extends YamlConfiguration {
 		plugin.getConfig().addDefault("login.lines", 100);
 		plugin.getConfig().addDefault("login.message.withMessage", true);
 		plugin.getConfig().addDefault("login.message.message", "&3Your chat was cleared automatically on join.");
+		plugin.getConfig().addDefault("clear.global.lines", 100);
+		plugin.getConfig().addDefault("clear.personal.lines", 100);
 		plugin.getConfig().options().copyDefaults(true);
 		plugin.saveDefaultConfig();
 	}
