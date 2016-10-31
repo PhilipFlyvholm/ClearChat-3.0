@@ -6,6 +6,7 @@ import java.util.List;
 import me.phil14052.ClearChat3_0.API.CustomEvents.GlobalChatClearEvent;
 import me.phil14052.ClearChat3_0.API.CustomEvents.PersonalChatClearEvent;
 import me.phil14052.ClearChat3_0.Managers.MuteManager;
+import me.phil14052.ClearChat3_0.Utils.ChatUtils;
 import me.phil14052.ClearChat3_0.Utils.FastUtils;
 
 import org.bukkit.Bukkit;
@@ -16,7 +17,14 @@ public class CCAPI {
 
 	private JavaPlugin plugin = null;
 	private MuteManager mm;
+	private boolean isAutoClearEnabled = false;
+	private int autoClearInterval = 0;
 	
+	/**
+	 * Get the CCAPI instance
+	 * @param plugin = Your JavaPlugin instance
+	 * @param b = With message (Does not work with all plugins) Use true.
+	 */
 	public CCAPI(JavaPlugin plugin, boolean b){
 		if(plugin == null){
 			Bukkit.getLogger().warning("ClearChat API: Plugin is null");
@@ -32,18 +40,73 @@ public class CCAPI {
 		}
 	}
 	
-	public void clearChatGlobalt(){
-		this.clearChatGlobal(100 , "none");
+	/**
+	 * Clear the global chat
+	 */
+	public void clearChatGlobal(){
+		this.clearChatGlobal(false, 100 , "none");
+	}
+
+	
+	/**
+	 * Clear the global chat
+	 * @param inGamePlayersOnly = Boolean (should it only clear in game players - Does not clear console)
+	 */
+	public void clearChatGlobal(boolean inGamePlayersOnly){
+		this.clearChatGlobal(inGamePlayersOnly, 100 , "none");
 	}
 	
+	
+	/**
+	 * Clear the global chat
+	 * @param lines = How many lines should be cleared (100 is default)
+	 */
 	public void clearChatGlobal(int lines){
-		this.clearChatGlobal(lines, "none");
-	}
-	public void clearChatGlobal(String message){
-		this.clearChatGlobal(100, message);
+		this.clearChatGlobal(false, lines, "none");
 	}
 	
+	/**
+	 * Clear the global chat
+	 * @param inGamePlayersOnly = Boolean (should it only clear in game players - Does not clear console)
+	 * @param lines = How many lines should be cleared (100 is default)
+	 */
+	public void clearChatGlobal(boolean inGamePlayersOnly, int lines){
+		this.clearChatGlobal(inGamePlayersOnly, lines, "none");
+	}
+	
+	/**
+	 * Clear the global chat
+	 * @param inGamePlayersOnly = Boolean (should it only clear in game players - Does not clear console)
+	 * @param message = The message that will be sent after clear (Use "none" for no message)
+	 */
+	public void clearChatGlobal(boolean inGamePlayersOnly, String message){
+		this.clearChatGlobal(inGamePlayersOnly, 100, message);
+	}
+
+	/**
+	 * Clear the global chat
+	 * @param message = The message that will be sent after clear (Use "none" for no message)
+	 */
+	public void clearChatGlobal(String message){
+		this.clearChatGlobal(false, 100, message);
+	}
+	
+	/**
+	 * Clear the global chat
+	 * @param inGamePlayersOnly = Boolean (should it only clear in game players - Does not clear console)
+	 * @param lines = How many lines should be cleared (100 is default)
+	 * @param message = The message that will be sent after clear (Use "none" for no message)
+	 */
 	public void clearChatGlobal(int lines, String message){
+		this.clearChatGlobal(false, lines, message);
+	}
+	
+	/**
+	 * Clear the global chat
+	 * @param lines = How many lines should be cleared (100 is default)
+	 * @param message = The message that will be sent after clear (Use "none" for no message)
+	 */
+	public void clearChatGlobal(boolean inGamePlayersOnly, int lines, String message){
 		List<Player> players = new ArrayList<Player>();
 		players.addAll(Bukkit.getOnlinePlayers());
 		boolean withMessage = true;
@@ -54,25 +117,48 @@ public class CCAPI {
 	    Bukkit.getPluginManager().callEvent(event);
 	    if(!event.isCancelled()){
 			for(int i=0; i<lines; i++){
-				Bukkit.broadcastMessage("");
+				ChatUtils.broadcastMessage(" ", !inGamePlayersOnly);
 			}
 			if(withMessage){
-				Bukkit.broadcastMessage(message);
+				ChatUtils.broadcastMessage(message, !inGamePlayersOnly);
 			}
 	    }
 	}
 	
+
+	/**
+	 * Clear the personal chat
+	 * @param p = The player which chat should be cleared
+	 */
 	public void clearChatPersonal(Player p){
 		this.clearChatPersonal(p, 100 , "none");
 	}
 	
+
+	/**
+	 * Clear the personal chat
+	 * @param p = The player which chat should be cleared
+	 * @param lines = How many lines should be cleared (100 is default)
+	 */
 	public void clearChatPersonal(Player p, int lines){
 		this.clearChatPersonal(p, lines, "none");
 	}
+
+	/**
+	 * Clear the personal chat
+	 * @param p = The player which chat should be cleared
+	 * @param message = The message that will be sent after clear (Use "none" for no message)
+	 */
 	public void clearChatPersonal(Player p, String message){
 		this.clearChatPersonal(p, 100, message);
 	}
 	
+	/**
+	 * Clear the personal chat
+	 * @param p = The player which chat should be cleared
+	 * @param lines = How many lines should be cleared (100 is default)
+	 * @param message = The message that will be sent after clear (Use "none" for no message)
+	 */
 	public void clearChatPersonal(Player p, int lines, String message){
 		if(p == null || !p.isOnline()){
 			Bukkit.getLogger().warning("ClearChat API: Player not found");
@@ -98,7 +184,11 @@ public class CCAPI {
 	    }
 		
 	}
+
 	
+	/**
+	 * Toggle global chats mute
+	 */
 	public void toggleGlobalMute(){
 		if(isGlobalChatMuted()){
 			this.unMuteGlobalChat();
@@ -107,13 +197,25 @@ public class CCAPI {
 		}
 	}
 	
+	
+	/**
+	 * Mute global chat
+	 */
 	public void muteGlobalChat(){
 		mm.setDisableGlobalChat(true);
 	}
+	
+	/**
+	 * Unmute global chat
+	 */
 	public void unMuteGlobalChat(){
 		mm.setDisableGlobalChat(false);
 	}
 	
+	
+	/**
+	 * @return true if global chat is muted
+	 */
 	public boolean isGlobalChatMuted(){
 		return mm.isGlobalChatDisabled();
 	}
@@ -154,5 +256,30 @@ public class CCAPI {
 		return mm.isPlayerChatDisabled(p);
 	}
 	
+	public int getAutoClearInterval(){
+		return this.autoClearInterval;
+	}
 	
+	public void setAutoClearInterval(int interval){
+		this.autoClearInterval = interval;
+	}
+	
+	
+	
+	public void toggleAutoClear(){
+		if(this.isAutoClearEnabled){
+			this.setAutoClearEnabled(false);
+		}else{
+			this.setAutoClearEnabled(true);
+		}
+	}
+
+	public boolean isAutoClearEnabled() {
+		return isAutoClearEnabled;
+	}
+
+	public void setAutoClearEnabled(boolean isAutoClearEnabled) {
+		this.isAutoClearEnabled = isAutoClearEnabled;
+		
+	}
 }

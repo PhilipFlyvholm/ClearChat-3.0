@@ -25,13 +25,10 @@ public enum Lang {
     USAGE_MUTE_PERSONAL_CONSOLE("usage.personalmute.console", "/clearchat mutechat personal (player)"),
     FAILED_PREFIX("failed.prefix", "&4&lFailed:&c "),
     FAILED_PLAYER_NOT_FOUND("failed.player-not-found", "{player_name} was not found."),
-    PLAYER_TEAM_INFO("player.team-info", "ARRAYLIST: &8&l&m--------------------- ,   , &3&lTeam name: &b%team_name% , &3&lTeam owner: &b%team_owner%"
-    		+ " , &3&lMembers: , &b%team_members%"
-    		+ " , &3&lAlliances: , &b%team_allies%"
-    		+ " , &3&lEnemies: , &b%team_enemies%"
-    		+ " , &3&lLevel: &b%team_level%"
-    		+ " , &3&lXp: &b%team_xp%"
-    		+ " , &3&lInvite only: &b%invite_only%"
+    FAILED_REENABLE_CHAT_TO_CHAT("failed.reenable-chat", "You need to enable your chat to use the chat."),
+    PLAYER_PLUGIN_INFO("player.plugin-info", "ARRAYLIST: &8&l&m--------------------- ,   , &3{plugin_name} - Version {plugin_version} by Phil14052"
+    		+ " , &8If you want help do: &3%run_command_/clearchat help%"
+    		+ " , &8Or visit the plugin thread: &3http://goo.gl/5MA6Zl"
     		+ " ,  "
     		+ " , &8&l&m---------------------"),
     PLAYER_PERSONAL_MUTE_ON("player.mute.personal.on", "&aYour chat is now muted"),
@@ -39,7 +36,24 @@ public enum Lang {
     PLAYER_GLOBAL_CLEAR_DEFAULT("player.clear.global.default", "The chat was cleared by &3{player_name}&8."),
     PLAYER_GLOBAL_CLEAR_ANONYMOUS("player.clear.global.anonymous", "The chat was cleared."),
     PLAYER_PERSONAL_CLEAR_DEFAULT("player.clear.personal.default", "Your chat was cleared."),
-    PLAYER_GLOBAL_CHAT_DISABLED("player.globalChat.disabled", "&c&lThe chat is disabled.");
+    PLAYER_GLOBAL_CHAT_DISABLED("player.globalChat.disabled", "&c&lThe chat is disabled."),
+    PLAYER_GLOBAL_MUTE_ON("player.mute.global.on", "&aYou have now muted the chat."),
+    PLAYER_GLOBAL_MUTE_OFF("player.mute.global.off", "&cYou have now unmuted the chat."),
+    PLAYER_CHAT_DISABLED("player.players-chat-disabled","&c{player_name}'s&8 chat is currently disabled. So &ihe/she&8 did not see your message."),
+    PLAYER_PLUGIN_HELP("player.plugin-help", "ARRAYLIST: &8&l&m--------------------- ,   , &3{plugin_name} - &8Help"
+    		+ " , &3%suggest_command_/clearchat%&8 - Main command"
+    		+ " , &3%suggest_command_/clearchat help% &8- Shows this"
+    		+ " , &3%suggest_command_/clearchat global%&3  [-a,-s]&8 - Main command"
+    		+ " , &3%suggest_command_/clearchat personal%&3 [-m]&8 - Main command"
+    		+ " , &3%suggest_command_/clearchat mutechat global%&8 - Main command"
+    		+ " , &3%suggest_command_/clearchat mutechat personal%&3 [player]&8 - Main command"
+    		+ " , &3%suggest_command_/clearchat reload%&8 - Reload the config and lang file."
+    		+ " ,  "
+    		+ " , &8&l&m---------------------"),
+    BROADCAST_GLOBAL_MUTE_ON("broadcast.mute.global.on", "&cThe chat is now muted"),
+    BROADCAST_GLOBAL_MUTE_OFF("broadcast.mute.global.off", "&aThe chat is no longer muted"),
+    MAIN_COLOR("main-color","&8"),
+    SECONDARY_COLOR("secondary-color", "&3");
     
     
     private String path;

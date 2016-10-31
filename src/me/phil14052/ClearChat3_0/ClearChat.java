@@ -11,6 +11,7 @@ import me.phil14052.ClearChat3_0.Files.ConfigUpdater;
 import me.phil14052.ClearChat3_0.Files.Files;
 import me.phil14052.ClearChat3_0.Files.Lang;
 import me.phil14052.ClearChat3_0.Files.LangFileUpdater;
+import me.phil14052.ClearChat3_0.Managers.AutoClearManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -22,18 +23,27 @@ public class ClearChat extends JavaPlugin{
 	public CCAPI papi = null;
 	private static List<JavaPlugin> connectedPlugins = new ArrayList<JavaPlugin>();
 	public Files lang;
-	
 	@Override
 	public void onEnable(){
 		plugin = this;
+		double time = System.currentTimeMillis();
+		new ConfigUpdater();
+		saveConfig();
+		this.debug("Enabling ClearChat");
+		this.debug("The config is now setup");
 		lang = new Files(this, "lang.yml");
 		new LangFileUpdater(plugin);
 		Lang.setFile(lang);
-		new ConfigUpdater();
-		saveConfig();
+		this.debug("Lang is now setup");
 		papi = getApi(plugin);
+		this.debug("Api is now setup");
 		registerEvents();
 		plugin.getCommand("clearchat").setExecutor(new MainCommand());
+		AutoClearManager.getInstance();
+		this.debug("Registed events and commands");
+		double time2 = System.currentTimeMillis();
+		double time3 = (time2-time)/1000;
+		this.debug("Took " + String.valueOf(time3) + " seconds to setup ClearChat 3.0");
 	}
 	
 	@Override
@@ -45,6 +55,12 @@ public class ClearChat extends JavaPlugin{
 		return plugin;
 	}
 
+	public void debug(String message){
+		if(plugin.getConfig().getBoolean("Debugmode")){
+			Bukkit.getConsoleSender().sendMessage(("&8[&3&lClearChat&8]: &c&lDebug &8-&7 " + message).replaceAll("&", "\u00A7"));
+		}
+	}
+	
 	private void registerEvents(){
 	    PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new PlayerEvents(), this);

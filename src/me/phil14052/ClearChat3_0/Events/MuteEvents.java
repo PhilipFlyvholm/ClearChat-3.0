@@ -26,10 +26,17 @@ public class MuteEvents implements Listener{
 		if(api.isGlobalChatMuted() && !pm.hasPermisson(p, "clearchat.chatmute.bypass", false)){
 			e.setCancelled(true);
 			ChatUtils.send(p, Lang.PLAYER_GLOBAL_CHAT_DISABLED.toString());
-		}else if(!pm.hasPermisson(e.getPlayer(), "clearchat.mutechat.bypass" , false)){
+		}else if(api.isPlayerChatDisabled(p)){
+			e.setCancelled(true);
+			ChatUtils.send(p, Lang.FAILED_PREFIX.toString() + Lang.FAILED_REENABLE_CHAT_TO_CHAT.toString());
+		}else if(!pm.hasPermisson(p, "clearchat.mutechat.bypass" , false)){
 			
 			for(Player op : Bukkit.getOnlinePlayers()){
 				if(api.isPlayerChatDisabled(op)){
+					if(e.getMessage().contains(op.getName())){
+						String message = Lang.PLAYER_CHAT_DISABLED.toString().replace("{player_name}", op.getName()).replace("{player_displayname}", op.getDisplayName());
+						ChatUtils.send(p, message);
+					}
 					e.getRecipients().remove(op);
 				}
 			}
