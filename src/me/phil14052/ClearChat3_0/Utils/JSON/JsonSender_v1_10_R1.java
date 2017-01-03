@@ -17,8 +17,8 @@ public class JsonSender_v1_10_R1 implements JsonSender{
 			this.sendJson(p, fm);
 			return;
 		}else{
-			//String msg = fm.toOldMessageFormat();
-			//sender.sendMessage(msg);
+			String msg = fm.toOldMessageFormat();
+			sender.sendMessage(msg);
 		}
 	}
 	

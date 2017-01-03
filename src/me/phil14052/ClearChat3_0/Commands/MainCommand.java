@@ -17,6 +17,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 
@@ -31,6 +32,12 @@ public class MainCommand implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(FastUtils.isLessThan(args.length, 1)){
+			if(plugin.getConfig().getBoolean("other.infomenu.convertToClearCommand")){				
+				boolean inGamePlayersOnly = plugin.getConfig().getBoolean("clear.global.ingammeplayersonly");
+				String message = ChatUtils.prepareMessage(sender, Lang.PREFIX.toString() + Lang.PLAYER_GLOBAL_CLEAR_DEFAULT.toString());
+				api.clearChatGlobal(inGamePlayersOnly, plugin.getConfig().getInt("clear.global.lines"),  message);
+				return true;
+			}
 			List<String> info = Lang.PLAYER_PLUGIN_INFO.toStringList();
 			String ppart = "";
 			for(String line : info){
@@ -111,98 +118,109 @@ public class MainCommand implements CommandExecutor{
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("help")){
-			List<String> info = Lang.PLAYER_PLUGIN_HELP.toStringList();
-			String ppart = "";
-			for(String line : info){
-				line = ChatUtils.prepareMessage(sender, line);
-				//MAXS 1 %run_command_ per line
-				if(line.contains("%run_command_")){
-					
-					String[] strings = line.split("%run_command_");
-					String command = strings[1];
-					command = command.substring(command.indexOf("_") + 1);
-					command = command.substring(0, command.indexOf("%"));
-					String l = strings[1];
-					l = l.replaceAll(command + "%", "");
-					FancyMessage fm = new FancyMessage(strings[0]);
-					if(ppart != "" && ChatUtils.getLastColor(ppart, "§") != null && ChatUtils.getLastColor(strings[0], "§") == null){
-						command = ChatUtils.getLastColor(ppart, "§") + command;
-					}else if(ppart != "" && ChatUtils.getLastColor(strings[0], "§") != null){
-						command = ChatUtils.getLastColor(strings[0], "§") + command;
-					}
-					fm.then(command)
-					.command(ChatColor.stripColor(command))
-					.tooltip("§cClick here to run " + ChatColor.stripColor(command))
-					.then(l);
-					ChatUtils.getJsonSender().sendJson(sender, fm);
-					
-				}else if(line.contains("%suggest_command_")){
-					
-					String[] strings = line.split("%suggest_command_");
-					String command = strings[1];
-					command = command.substring(command.indexOf("_") + 1);
-					command = command.substring(0, command.indexOf("%"));
-					String l = strings[1];
-					l = l.replaceAll(command + "%", "");
-					FancyMessage fm = new FancyMessage(strings[0]);
-					if(ppart != "" && ChatUtils.getLastColor(ppart, "§") != null && ChatUtils.getLastColor(strings[0], "§") == null){
-						command = ChatUtils.getLastColor(ppart, "§") + command;
-					}else if(ppart != "" && ChatUtils.getLastColor(strings[0], "§") != null){
-						command = ChatUtils.getLastColor(strings[0], "§") + command;
-					}
-					fm.then(command)
-					.suggest(ChatColor.stripColor(command))
-					.tooltip("§c" + ChatColor.stripColor(command))
-					.then(l);
-					ChatUtils.getJsonSender().sendJson(sender, fm);
-					
-				}else{
-					String[] splits = line.split("http");
-					int part = 0;
-					HashMap<String, Integer> map = new HashMap<String, Integer>();
-					for(String split : splits){
-						if(split.startsWith("s://") || split.startsWith("://")){
-							if(split.endsWith("?") || split.endsWith("!") || split.endsWith(".") || split.endsWith("<") || split.endsWith(">")){
-								plugin.getLogger().info("A link may not end with a symbol: " + split);
-							}else{
-								map.put(split, part);
-							}
+			if(plugin.getConfig().getBoolean("other.helpmenu.needpermission") 
+					&& !pm.hasPermission(sender, plugin.getConfig().getString("other.helpmenu.permission"), true)){
+				return false;
+			}else{
+				List<String> info = Lang.PLAYER_PLUGIN_HELP.toStringList();
+				String ppart = "";
+				for(String line : info){
+					line = ChatUtils.prepareMessage(sender, line);
+					//MAXS 1 %run_command_ per line
+					if(line.contains("%run_command_")){
+						
+						String[] strings = line.split("%run_command_");
+						String command = strings[1];
+						command = command.substring(command.indexOf("_") + 1);
+						command = command.substring(0, command.indexOf("%"));
+						String l = strings[1];
+						l = l.replaceAll(command + "%", "");
+						FancyMessage fm = new FancyMessage(strings[0]);
+						if(ppart != "" && ChatUtils.getLastColor(ppart, "§") != null && ChatUtils.getLastColor(strings[0], "§") == null){
+							command = ChatUtils.getLastColor(ppart, "§") + command;
+						}else if(ppart != "" && ChatUtils.getLastColor(strings[0], "§") != null){
+							command = ChatUtils.getLastColor(strings[0], "§") + command;
 						}
-						part++;
-					}
-					FancyMessage fm = new FancyMessage("");
-					part = 0;
-					for(String split : splits){
-						if(map.containsKey(split) && map.get(split) == part){
-							if(ppart != "" && ChatUtils.getLastColor(ppart, "§") != null){
-								split = ChatUtils.getLastColor(ppart, "§") + "http" + split;
-							}else{
-								split = "http" + split;	
-							}
-							fm.then(split)
-							.link(ChatColor.stripColor(split))
-							.tooltip("§cClick to open link");
-						}else{
-							fm.then(split);
+						fm.then(command)
+						.command(ChatColor.stripColor(command))
+						.tooltip("§cClick here to run " + ChatColor.stripColor(command))
+						.then(l);
+						ChatUtils.getJsonSender().sendJson(sender, fm);
+						
+					}else if(line.contains("%suggest_command_")){
+						
+						String[] strings = line.split("%suggest_command_");
+						String command = strings[1];
+						command = command.substring(command.indexOf("_") + 1);
+						command = command.substring(0, command.indexOf("%"));
+						String l = strings[1];
+						l = l.replaceAll(command + "%", "");
+						FancyMessage fm = new FancyMessage(strings[0]);
+						if(ppart != "" && ChatUtils.getLastColor(ppart, "§") != null && ChatUtils.getLastColor(strings[0], "§") == null){
+							command = ChatUtils.getLastColor(ppart, "§") + command;
+						}else if(ppart != "" && ChatUtils.getLastColor(strings[0], "§") != null){
+							command = ChatUtils.getLastColor(strings[0], "§") + command;
 						}
-						ppart = split;
-						part++;
+						fm.then(command)
+						.suggest(ChatColor.stripColor(command))
+						.tooltip("§c" + ChatColor.stripColor(command))
+						.then(l);
+						ChatUtils.getJsonSender().sendJson(sender, fm);
+						
+					}else{
+						String[] splits = line.split("http");
+						int part = 0;
+						HashMap<String, Integer> map = new HashMap<String, Integer>();
+						for(String split : splits){
+							if(split.startsWith("s://") || split.startsWith("://")){
+								if(split.endsWith("?") || split.endsWith("!") || split.endsWith(".") || split.endsWith("<") || split.endsWith(">")){
+									plugin.getLogger().info("A link may not end with a symbol: " + split);
+								}else{
+									map.put(split, part);
+								}
+							}
+							part++;
+						}
+						FancyMessage fm = new FancyMessage("");
+						part = 0;
+						for(String split : splits){
+							if(map.containsKey(split) && map.get(split) == part){
+								if(ppart != "" && ChatUtils.getLastColor(ppart, "§") != null){
+									split = ChatUtils.getLastColor(ppart, "§") + "http" + split;
+								}else{
+									split = "http" + split;	
+								}
+								fm.then(split)
+								.link(ChatColor.stripColor(split))
+								.tooltip("§cClick to open link");
+							}else{
+								fm.then(split);
+							}
+							ppart = split;
+							part++;
+						}
+						ChatUtils.getJsonSender().sendJson(sender, fm);
 					}
-					ChatUtils.getJsonSender().sendJson(sender, fm);
+					ppart = line;
 				}
-				ppart = line;
-			}
 			
+
+			}
 			return true;
 		}else if(args[0].equalsIgnoreCase("global")){
+			if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.global"), true)) return false;
 			boolean inGamePlayersOnly = plugin.getConfig().getBoolean("clear.global.ingammeplayersonly");
 			if(FastUtils.isGreaterThan(args.length, 1)){
 				if(args[1].equalsIgnoreCase("-s")){
+					if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.global.silent"), true)) return false;
 					api.clearChatGlobal(inGamePlayersOnly, plugin.getConfig().getInt("clear.global.lines"),  "none");
+					if(sender instanceof ConsoleCommandSender && inGamePlayersOnly) ChatUtils.send(sender, "Cleared");
 					return true;
 				}else if(args[1].equalsIgnoreCase("-a")){
+					if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.global.anonymous"), true)) return false;
 					String message = ChatUtils.prepareMessage(sender, Lang.PREFIX.toString() + Lang.PLAYER_GLOBAL_CLEAR_ANONYMOUS.toString());
 					api.clearChatGlobal(inGamePlayersOnly, plugin.getConfig().getInt("clear.global.lines"),  message);
+					if(sender instanceof ConsoleCommandSender && inGamePlayersOnly) ChatUtils.send(sender, message);
 					return true;
 				}else{
 					ChatUtils.send(sender, Lang.INVALID_ARGS.toString());
@@ -211,6 +229,7 @@ public class MainCommand implements CommandExecutor{
 			}else{
 				String message = ChatUtils.prepareMessage(sender, Lang.PREFIX.toString() + Lang.PLAYER_GLOBAL_CLEAR_DEFAULT.toString());
 				api.clearChatGlobal(inGamePlayersOnly, plugin.getConfig().getInt("clear.global.lines"),  message);
+				if(sender instanceof ConsoleCommandSender && inGamePlayersOnly) ChatUtils.send(sender, message);
 				return true;
 			}			
 		}else if(args[0].equalsIgnoreCase("personal")){
@@ -220,6 +239,8 @@ public class MainCommand implements CommandExecutor{
 				
 				return false;
 			}
+
+			if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.personal"), true)) return false;
 			Player p = (Player) sender;
 			
 			String message = ChatUtils.prepareMessage(p, Lang.PREFIX.toString() + Lang.PLAYER_PERSONAL_CLEAR_DEFAULT.toString());
@@ -232,14 +253,17 @@ public class MainCommand implements CommandExecutor{
 					return false;
 				}
 			}else{
+				if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.personal.other"), true)) return false;
 				api.clearChatPersonal(p, plugin.getConfig().getInt("clear.personal.lines"), message);
 				return true;
 			}
 			
 		}else if(args[0].equalsIgnoreCase("mutechat")){
+			if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.mutechat"), true)) return false;
 			
 			if(FastUtils.isGreaterThan(args.length, 1)){
 				if(args[1].equalsIgnoreCase("global")){
+					if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.mutechat.global"), true)) return false;
 					api.toggleGlobalMute();
 					if(api.isGlobalChatMuted()){
 						sender.sendMessage(Lang.PREFIX.toString() + Lang.PLAYER_GLOBAL_MUTE_ON);
@@ -250,7 +274,9 @@ public class MainCommand implements CommandExecutor{
 					}
 					return true;
 				}else if(args[1].equalsIgnoreCase("personal")){
+					if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.mutechat.personal"), true)) return false;
 					if(FastUtils.isGreaterThan(args.length, 2)){
+						if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.mutechat.personal.other"), true)) return false;
 						String playername = args[2];
 						@SuppressWarnings("deprecation")
 						Player p = Bukkit.getPlayer(playername);

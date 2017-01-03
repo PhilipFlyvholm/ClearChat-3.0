@@ -22,6 +22,8 @@ public class ConfigUpdater extends YamlConfiguration {
 		plugin.getConfig().options().copyHeader();
 		plugin.getConfig().addDefault("Debugmode", false);
 		plugin.getConfig().addDefault("login.clearOnLogin", true);
+		plugin.getConfig().addDefault("login.permission.needPermission", true);
+		plugin.getConfig().addDefault("login.permission.permission", "clearchat.custom.joinclear");
 		plugin.getConfig().addDefault("login.lines", 100);
 		plugin.getConfig().addDefault("login.message.withMessage", true);
 		plugin.getConfig().addDefault("login.message.message", "&3Your chat was cleared automatically on join.");
@@ -36,6 +38,9 @@ public class ConfigUpdater extends YamlConfiguration {
 		plugin.getConfig().addDefault("clear.autoclear.ingammeplayersonly", true);
 		plugin.getConfig().addDefault("clear.autoclear.message.withMessage", true);
 		plugin.getConfig().addDefault("clear.autoclear.message.message", "&8The chat was cleared automatically.");
+		plugin.getConfig().addDefault("other.helpmenu.needpermission", false);
+		plugin.getConfig().addDefault("other.helpmenu.permission", "clearchat.custom.help");
+		plugin.getConfig().addDefault("other.infomenu.convertToClearCommand", false);
 		plugin.getConfig().options().copyDefaults(true);
 		plugin.saveDefaultConfig();
 	}
