@@ -25,6 +25,6 @@
 *You can look in my code after bugs. Maybe fix them. And commit code to github.*
 
 ##License:
-Copyright © 2016-2016 Philip Flyvholm
+Copyright Â© 2016-2017 Philip Flyvholm
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to use, modify and merge the software.
