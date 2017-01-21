@@ -6,10 +6,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class PermissionManager {
-	public boolean hasPermisson(Player p, String permission, boolean withMessage){
-		if(p.hasPermission("clearchat.*")){
-			return true;
+	public boolean hasPermisson(Player p, String permission, boolean withMessage){			
+		String permissionClone = permission;
+		if(permission.contains(".")){
+			int index = permission.lastIndexOf(".");
+			permissionClone = permissionClone.replace(permissionClone.substring(index), "");
 		}
+		if(p.hasPermission(permissionClone + ".*")) return true;
 		else if(p.hasPermission(permission)){
 			return true;
 		}
@@ -19,6 +22,7 @@ public class PermissionManager {
 			}
 			return false;	
 		}
+		
 	}
 	
 	public boolean hasPermission(CommandSender sender, String permission, boolean withMessage){

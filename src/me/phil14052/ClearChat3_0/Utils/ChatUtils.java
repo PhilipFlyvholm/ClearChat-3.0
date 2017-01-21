@@ -3,6 +3,7 @@ package me.phil14052.ClearChat3_0.Utils;
 import me.phil14052.ClearChat3_0.ClearChat;
 import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender;
 import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender_v1_10_R1;
+import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender_v1_11_R1;
 import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender_v1_9_R1;
 import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender_v1_9_R2;
 import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender_vOther;
@@ -36,34 +37,38 @@ public class ChatUtils {
 		return string;
 	}
 	
-	public static String prepareMessage(Player p, String string){
+	public static String prepareMessage(Player p, String string, boolean color){
 		PluginDescriptionFile pluginyml = plugin.getDescription();
 		string = replacePlaceholder(string, "{player_name}", p.getName());
 		string = replacePlaceholder(string, "{player_displayname}", p.getDisplayName());
 		string = replacePlaceholder(string, "{plugin_name}", pluginyml.getName());
 		string = replacePlaceholder(string, "{plugin_version}", pluginyml.getVersion());
-		string = color(string);
+		if(color){
+			string = color(string);
+		}
 		return string;
 	}
-	public static String prepareMessage(CommandSender sender, String string){
+	public static String prepareMessage(CommandSender sender, String string, boolean color){
 		if(sender instanceof Player){
 			 Player p = (Player) sender;
-			 return prepareMessage(p, string);
+			 return prepareMessage(p, string, color);
 		}
 		PluginDescriptionFile pluginyml = plugin.getDescription();
 		string = replacePlaceholder(string, "{player_name}", "Console");
 		string = replacePlaceholder(string, "{player_displayname}", "Console");
 		string = replacePlaceholder(string, "{plugin_name}", pluginyml.getName());
 		string = replacePlaceholder(string, "{plugin_version}", pluginyml.getVersion());
-		string = color(string);
+		if(color){
+			string = color(string);
+		}
 		return string;
 	}
-	public static void send(Player p, String string){
-		string = prepareMessage(p, string);
+	public static void send(Player p, String string, boolean color){
+		string = prepareMessage(p, string, color);
 		p.sendMessage(string);
 	}
-	public static void send(CommandSender sender, String string){
-		string = prepareMessage(sender, string);
+	public static void send(CommandSender sender, String string, boolean color){
+		string = prepareMessage(sender, string, color);
 		sender.sendMessage(string);
 	}
 	
@@ -75,7 +80,10 @@ public class ChatUtils {
 		} catch (ArrayIndexOutOfBoundsException ex) {
 		ex.printStackTrace();
 		}
-		if(version.startsWith("v1_10")){
+		if(version.startsWith("v1_11_R1")){
+			js = new JsonSender_v1_11_R1();
+		}
+		else if(version.startsWith("v1_10")){
 			js = new JsonSender_v1_10_R1();
 		}
 		else if(version.startsWith("v1_9_R2")){

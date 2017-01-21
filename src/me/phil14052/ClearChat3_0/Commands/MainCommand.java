@@ -34,14 +34,14 @@ public class MainCommand implements CommandExecutor{
 		if(FastUtils.isLessThan(args.length, 1)){
 			if(plugin.getConfig().getBoolean("other.infomenu.convertToClearCommand")){				
 				boolean inGamePlayersOnly = plugin.getConfig().getBoolean("clear.global.ingammeplayersonly");
-				String message = ChatUtils.prepareMessage(sender, Lang.PREFIX.toString() + Lang.PLAYER_GLOBAL_CLEAR_DEFAULT.toString());
+				String message = ChatUtils.prepareMessage(sender, Lang.PREFIX.toString() + Lang.PLAYER_GLOBAL_CLEAR_DEFAULT.toString(), true);
 				api.clearChatGlobal(inGamePlayersOnly, plugin.getConfig().getInt("clear.global.lines"),  message);
 				return true;
 			}
 			List<String> info = Lang.PLAYER_PLUGIN_INFO.toStringList();
 			String ppart = "";
 			for(String line : info){
-				line = ChatUtils.prepareMessage(sender, line);
+				line = ChatUtils.prepareMessage(sender, line, true);
 				//MAXS 1 %run_command_ per line
 				if(line.contains("%run_command_")){
 					String[] strings = line.split("%run_command_");
@@ -125,7 +125,7 @@ public class MainCommand implements CommandExecutor{
 				List<String> info = Lang.PLAYER_PLUGIN_HELP.toStringList();
 				String ppart = "";
 				for(String line : info){
-					line = ChatUtils.prepareMessage(sender, line);
+					line = ChatUtils.prepareMessage(sender, line, true);
 					//MAXS 1 %run_command_ per line
 					if(line.contains("%run_command_")){
 						
@@ -208,62 +208,62 @@ public class MainCommand implements CommandExecutor{
 			}
 			return true;
 		}else if(args[0].equalsIgnoreCase("global")){
-			if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.global"), true)) return false;
+			if(!pm.hasPermission(sender, "clearchat.commands.global", true)) return false;
 			boolean inGamePlayersOnly = plugin.getConfig().getBoolean("clear.global.ingammeplayersonly");
 			if(FastUtils.isGreaterThan(args.length, 1)){
 				if(args[1].equalsIgnoreCase("-s")){
 					if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.global.silent"), true)) return false;
 					api.clearChatGlobal(inGamePlayersOnly, plugin.getConfig().getInt("clear.global.lines"),  "none");
-					if(sender instanceof ConsoleCommandSender && inGamePlayersOnly) ChatUtils.send(sender, "Cleared");
+					if(sender instanceof ConsoleCommandSender && inGamePlayersOnly) ChatUtils.send(sender, "Cleared", true);
 					return true;
 				}else if(args[1].equalsIgnoreCase("-a")){
 					if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.global.anonymous"), true)) return false;
-					String message = ChatUtils.prepareMessage(sender, Lang.PREFIX.toString() + Lang.PLAYER_GLOBAL_CLEAR_ANONYMOUS.toString());
+					String message = ChatUtils.prepareMessage(sender, Lang.PREFIX.toString() + Lang.PLAYER_GLOBAL_CLEAR_ANONYMOUS.toString(), true);
 					api.clearChatGlobal(inGamePlayersOnly, plugin.getConfig().getInt("clear.global.lines"),  message);
-					if(sender instanceof ConsoleCommandSender && inGamePlayersOnly) ChatUtils.send(sender, message);
+					if(sender instanceof ConsoleCommandSender && inGamePlayersOnly) ChatUtils.send(sender, message, true);
 					return true;
 				}else{
-					ChatUtils.send(sender, Lang.INVALID_ARGS.toString());
+					ChatUtils.send(sender, Lang.INVALID_ARGS.toString(), true);
 					return false;
 				}
 			}else{
-				String message = ChatUtils.prepareMessage(sender, Lang.PREFIX.toString() + Lang.PLAYER_GLOBAL_CLEAR_DEFAULT.toString());
+				String message = ChatUtils.prepareMessage(sender, Lang.PREFIX.toString() + Lang.PLAYER_GLOBAL_CLEAR_DEFAULT.toString(), true);
 				api.clearChatGlobal(inGamePlayersOnly, plugin.getConfig().getInt("clear.global.lines"),  message);
-				if(sender instanceof ConsoleCommandSender && inGamePlayersOnly) ChatUtils.send(sender, message);
+				if(sender instanceof ConsoleCommandSender && inGamePlayersOnly) ChatUtils.send(sender, message, true);
 				return true;
 			}			
 		}else if(args[0].equalsIgnoreCase("personal")){
 			
 			if(!(sender instanceof Player)){
-				ChatUtils.send(sender, Lang.PLAYER_ONLY.toString());
+				ChatUtils.send(sender, Lang.PLAYER_ONLY.toString(), true);
 				
 				return false;
 			}
 
-			if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.personal"), true)) return false;
+			if(!pm.hasPermission(sender, "clearchat.commands.personal", true)) return false;
 			Player p = (Player) sender;
 			
-			String message = ChatUtils.prepareMessage(p, Lang.PREFIX.toString() + Lang.PLAYER_PERSONAL_CLEAR_DEFAULT.toString());
+			String message = ChatUtils.prepareMessage(p, Lang.PREFIX.toString() + Lang.PLAYER_PERSONAL_CLEAR_DEFAULT.toString(), true);
 			if(FastUtils.isGreaterThan(args.length, 1)){
 				if(args[1].equalsIgnoreCase("-m")){
 					api.clearChatPersonal(p, plugin.getConfig().getInt("clear.personal.lines"), "none");
 					return true;
 				}else{
-					ChatUtils.send(sender, Lang.INVALID_ARGS.toString());
+					ChatUtils.send(sender, Lang.INVALID_ARGS.toString(), true);
 					return false;
 				}
 			}else{
-				if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.personal.other"), true)) return false;
+				if(!pm.hasPermission(sender, "clearchat.commands.personal.other", true)) return false;
 				api.clearChatPersonal(p, plugin.getConfig().getInt("clear.personal.lines"), message);
 				return true;
 			}
 			
 		}else if(args[0].equalsIgnoreCase("mutechat")){
-			if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.mutechat"), true)) return false;
+			if(!pm.hasPermission(sender, "clearchat.commands.mutechat", true)) return false;
 			
 			if(FastUtils.isGreaterThan(args.length, 1)){
 				if(args[1].equalsIgnoreCase("global")){
-					if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.mutechat.global"), true)) return false;
+					if(!pm.hasPermission(sender, "clearchat.commands.mutechat.global", true)) return false;
 					api.toggleGlobalMute();
 					if(api.isGlobalChatMuted()){
 						sender.sendMessage(Lang.PREFIX.toString() + Lang.PLAYER_GLOBAL_MUTE_ON);
@@ -274,9 +274,9 @@ public class MainCommand implements CommandExecutor{
 					}
 					return true;
 				}else if(args[1].equalsIgnoreCase("personal")){
-					if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.mutechat.personal"), true)) return false;
+					if(!pm.hasPermission(sender, "clearchat.commands.mutechat.personal", true)) return false;
 					if(FastUtils.isGreaterThan(args.length, 2)){
-						if(!pm.hasPermission(sender, plugin.getConfig().getString("clearchat.commands.mutechat.personal.other"), true)) return false;
+						if(!pm.hasPermission(sender, "clearchat.commands.mutechat.personal.other", true)) return false;
 						String playername = args[2];
 						@SuppressWarnings("deprecation")
 						Player p = Bukkit.getPlayer(playername);
@@ -289,31 +289,31 @@ public class MainCommand implements CommandExecutor{
 						}
 						api.togglePlayerChat(p);
 						if(api.isPlayerChatDisabled(p)){
-							ChatUtils.send(p, Lang.PREFIX.toString() +  Lang.PLAYER_PERSONAL_MUTE_OFF.toString());
+							ChatUtils.send(p, Lang.PREFIX.toString() +  Lang.PLAYER_PERSONAL_MUTE_OFF.toString(), true);
 							return true;
 						}else{
-							ChatUtils.send(p, Lang.PREFIX.toString() + Lang.PLAYER_PERSONAL_MUTE_ON.toString());
+							ChatUtils.send(p, Lang.PREFIX.toString() + Lang.PLAYER_PERSONAL_MUTE_ON.toString(), true);
 							return true;
 						}
 					}else{
 						if(!(sender instanceof Player)){
-							ChatUtils.send(sender, Lang.PLAYER_ONLY.toString());
-							ChatUtils.send(sender, Lang.USAGE_PREFIX.toString() + Lang.USAGE_MUTE_PERSONAL_CONSOLE.toString());
+							ChatUtils.send(sender, Lang.PLAYER_ONLY.toString(), true);
+							ChatUtils.send(sender, Lang.USAGE_PREFIX.toString() + Lang.USAGE_MUTE_PERSONAL_CONSOLE.toString(), true);
 							return false;
 						}
 						Player p = (Player) sender;
 						api.togglePlayerChat(p);
 						if(api.isPlayerChatDisabled(p)){
-							ChatUtils.send(sender, Lang.PREFIX.toString() +  Lang.PLAYER_PERSONAL_MUTE_ON.toString());
+							ChatUtils.send(sender, Lang.PREFIX.toString() +  Lang.PLAYER_PERSONAL_MUTE_ON.toString(), true);
 							return true;
 						}else{
-							ChatUtils.send(sender, Lang.PREFIX.toString() + Lang.PLAYER_PERSONAL_MUTE_OFF.toString());
+							ChatUtils.send(sender, Lang.PREFIX.toString() + Lang.PLAYER_PERSONAL_MUTE_OFF.toString(), true);
 							return true;
 						}
 					}
 				}
 			}else{
-				ChatUtils.send(sender, Lang.USAGE_PREFIX.toString() + Lang.USAGE_MUTE.toString());
+				ChatUtils.send(sender, Lang.USAGE_PREFIX.toString() + Lang.USAGE_MUTE.toString(), true);
 				return false;
 			}
 			return false;
@@ -339,8 +339,22 @@ public class MainCommand implements CommandExecutor{
 				return true;
 			}
 			return false;
+		}else if(args[0].equalsIgnoreCase("gui")){
+			sender.sendMessage("Don't tell anyone!");
+			sender.sendMessage("But there will come something amazing here");
+			sender.sendMessage("This message will delete itself in 10 sec because this IS TOP SECRET!!!!");
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+				public void run() {
+					for(int i=0; i<100; i++){
+						sender.sendMessage(" ");
+					}
+					sender.sendMessage("*BOOM!!*");
+				}
+			}, 10*20);
+
+			return true;
 		}else{
-			ChatUtils.send(sender, Lang.INVALID_ARGS.toString());
+			ChatUtils.send(sender, Lang.INVALID_ARGS.toString(), true);
 			return false;
 		}
 		

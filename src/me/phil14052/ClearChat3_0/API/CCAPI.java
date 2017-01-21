@@ -138,19 +138,19 @@ public class CCAPI {
 	/**
 	 * Clear the personal chat
 	 * @param p = The player which chat should be cleared
-	 * @param lines = How many lines should be cleared (100 is default)
+	 * @param message = The message that will be sent after clear (Use "none" for no message)
 	 */
-	public void clearChatPersonal(Player p, int lines){
-		this.clearChatPersonal(p, lines, "none");
+	public void clearChatPersonal(Player p, String message){
+		this.clearChatPersonal(p, 100, message);
 	}
-
+	
 	/**
 	 * Clear the personal chat
 	 * @param p = The player which chat should be cleared
 	 * @param message = The message that will be sent after clear (Use "none" for no message)
 	 */
-	public void clearChatPersonal(Player p, String message){
-		this.clearChatPersonal(p, 100, message);
+	public void clearChatPersonal(Player p, int lines){
+		this.clearChatPersonal(p, lines, "none");
 	}
 	
 	/**
@@ -220,6 +220,11 @@ public class CCAPI {
 		return mm.isGlobalChatDisabled();
 	}
 
+	
+	/**
+	 * Toggle a players chat (Disable a player from receiving messages)
+	 * @param p = Player
+	 */
 	public void togglePlayerChat(Player p){
 		if(p == null || !p.isOnline()){
 			Bukkit.getLogger().warning("ClearChat API: Player not found");
@@ -234,6 +239,10 @@ public class CCAPI {
 		}
 	}
 	
+	/**
+	 * Disable a player from receiving messages
+	 * @param p = Player
+	 */
 	public void disablePlayerChat(Player p){
 		if(p == null || !p.isOnline()){
 			Bukkit.getLogger().warning("ClearChat API: Player not found");
@@ -243,6 +252,11 @@ public class CCAPI {
 		}
 		mm.setDisablePlayerChat(p, true);
 	}
+	
+	/**
+	 * Enable a player from receiving messages
+	 * @param p = Player
+	 */
 	public void enablePlayerChat(Player p){if(p == null || !p.isOnline()){
 		Bukkit.getLogger().warning("ClearChat API: Player not found");
 		Bukkit.getLogger().warning("ClearChat API: Player given was not online or found when #enablePlayerChat was executed.");
@@ -252,20 +266,37 @@ public class CCAPI {
 		mm.setDisablePlayerChat(p,false);
 	}
 	
+	/**
+	 * Check if a player can receive messages
+	 * @return if a players is disabled from receiving messages
+	 * @param p = Player
+	 */
 	public boolean isPlayerChatDisabled(Player p){
 		return mm.isPlayerChatDisabled(p);
 	}
 	
+	
+	/**
+	 * Get interval between the chat is cleared automatically 
+	 * @return Interval for AutoClear
+	 */
 	public int getAutoClearInterval(){
 		return this.autoClearInterval;
 	}
 	
+	
+	/**
+	 * Get interval between the chat is cleared automatically 
+	 * @param interval = Interval for AutoClear
+	 */
 	public void setAutoClearInterval(int interval){
 		this.autoClearInterval = interval;
 	}
 	
 	
-	
+	/**
+	 * Toggle AutoClear
+	 */
 	public void toggleAutoClear(){
 		if(this.isAutoClearEnabled){
 			this.setAutoClearEnabled(false);
@@ -274,10 +305,18 @@ public class CCAPI {
 		}
 	}
 
+	/**
+	 * Check if AutoClear is enabled
+	 * @return true if autoclear is enabled
+	 */
 	public boolean isAutoClearEnabled() {
 		return isAutoClearEnabled;
 	}
 
+	/**
+	 * Set if AutoClear is enabled
+	 * @param isAutoClearEnabled = boolean
+	 */
 	public void setAutoClearEnabled(boolean isAutoClearEnabled) {
 		this.isAutoClearEnabled = isAutoClearEnabled;
 		

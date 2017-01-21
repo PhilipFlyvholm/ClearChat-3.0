@@ -25,7 +25,7 @@ public class PlayerEvents implements Listener{
 			int lines = plugin.getConfig().getInt("login.lines");
 			if(plugin.getConfig().getBoolean("login.message.withMessage")){
 				String message = plugin.getConfig().getString("login.message.message");
-				message = ChatUtils.prepareMessage(p, message);
+				message = ChatUtils.prepareMessage(p, message, true);
 				api.clearChatPersonal(p, lines, message);
 			}else{
 				api.clearChatPersonal(p, lines);
