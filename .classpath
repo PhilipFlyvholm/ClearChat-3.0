@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_131"/>
 	<classpathentry kind="lib" path="D:/Buildtools/BB/craftbukkit-1.10.jar"/>
 	<classpathentry kind="lib" path="D:/Buildtools/BB/craftbukkit-1.9.4.jar"/>
 	<classpathentry kind="lib" path="D:/Buildtools/1.9.2/craftbukkit-1.9.2.jar"/>
 	<classpathentry kind="lib" path="D:/#1Server/spigot-1.11.2.jar"/>
+	<classpathentry kind="lib" path="D:/#1Server/spigot-1.12.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

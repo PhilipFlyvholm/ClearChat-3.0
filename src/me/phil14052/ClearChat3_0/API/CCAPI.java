@@ -6,6 +6,7 @@ import java.util.List;
 import me.phil14052.ClearChat3_0.API.CustomEvents.GlobalChatClearEvent;
 import me.phil14052.ClearChat3_0.API.CustomEvents.PersonalChatClearEvent;
 import me.phil14052.ClearChat3_0.Managers.MuteManager;
+import me.phil14052.ClearChat3_0.Managers.PermissionManager;
 import me.phil14052.ClearChat3_0.Utils.ChatUtils;
 import me.phil14052.ClearChat3_0.Utils.FastUtils;
 
@@ -19,6 +20,7 @@ public class CCAPI {
 	private MuteManager mm;
 	private boolean isAutoClearEnabled = false;
 	private int autoClearInterval = 0;
+	private PermissionManager pm = null;
 	
 	/**
 	 * Get the CCAPI instance
@@ -34,6 +36,7 @@ public class CCAPI {
 		}else{
 			this.plugin = plugin;
 			this.mm = MuteManager.getInstance();
+			this.pm = new PermissionManager();
 			if(!b && !(plugin.getName().startsWith("ClearChat") && plugin.getDescription().getAuthors().contains("phil14052"))){
 				Bukkit.getLogger().info("ClearChat API: Succesfully connected " + plugin.getName() + " with the clearChat api.");
 			}
@@ -44,7 +47,7 @@ public class CCAPI {
 	 * Clear the global chat
 	 */
 	public void clearChatGlobal(){
-		this.clearChatGlobal(false, 100 , "none");
+		this.clearChatGlobal(false, 100 , "none", false);
 	}
 
 	
@@ -53,7 +56,7 @@ public class CCAPI {
 	 * @param inGamePlayersOnly = Boolean (should it only clear in game players - Does not clear console)
 	 */
 	public void clearChatGlobal(boolean inGamePlayersOnly){
-		this.clearChatGlobal(inGamePlayersOnly, 100 , "none");
+		this.clearChatGlobal(inGamePlayersOnly, 100 , "none", false);
 	}
 	
 	
@@ -62,7 +65,7 @@ public class CCAPI {
 	 * @param lines = How many lines should be cleared (100 is default)
 	 */
 	public void clearChatGlobal(int lines){
-		this.clearChatGlobal(false, lines, "none");
+		this.clearChatGlobal(false, lines, "none", false);
 	}
 	
 	/**
@@ -71,7 +74,7 @@ public class CCAPI {
 	 * @param lines = How many lines should be cleared (100 is default)
 	 */
 	public void clearChatGlobal(boolean inGamePlayersOnly, int lines){
-		this.clearChatGlobal(inGamePlayersOnly, lines, "none");
+		this.clearChatGlobal(inGamePlayersOnly, lines, "none", false);
 	}
 	
 	/**
@@ -80,7 +83,7 @@ public class CCAPI {
 	 * @param message = The message that will be sent after clear (Use "none" for no message)
 	 */
 	public void clearChatGlobal(boolean inGamePlayersOnly, String message){
-		this.clearChatGlobal(inGamePlayersOnly, 100, message);
+		this.clearChatGlobal(inGamePlayersOnly, 100, message, false);
 	}
 
 	/**
@@ -88,7 +91,7 @@ public class CCAPI {
 	 * @param message = The message that will be sent after clear (Use "none" for no message)
 	 */
 	public void clearChatGlobal(String message){
-		this.clearChatGlobal(false, 100, message);
+		this.clearChatGlobal(false, 100, message, false);
 	}
 	
 	/**
@@ -98,7 +101,7 @@ public class CCAPI {
 	 * @param message = The message that will be sent after clear (Use "none" for no message)
 	 */
 	public void clearChatGlobal(int lines, String message){
-		this.clearChatGlobal(false, lines, message);
+		this.clearChatGlobal(false, lines, message, false);
 	}
 	
 	/**
@@ -107,6 +110,15 @@ public class CCAPI {
 	 * @param message = The message that will be sent after clear (Use "none" for no message)
 	 */
 	public void clearChatGlobal(boolean inGamePlayersOnly, int lines, String message){
+		this.clearChatGlobal(inGamePlayersOnly, lines, message, false);
+	}
+	
+	/**
+	 * Clear the global chat
+	 * @param lines = How many lines should be cleared (100 is default)
+	 * @param message = The message that will be sent after clear (Use "none" for no message)
+	 */
+	public void clearChatGlobal(boolean inGamePlayersOnly, int lines, String message, boolean sendToAdmins){
 		List<Player> players = new ArrayList<Player>();
 		players.addAll(Bukkit.getOnlinePlayers());
 		boolean withMessage = true;
@@ -117,7 +129,15 @@ public class CCAPI {
 	    Bukkit.getPluginManager().callEvent(event);
 	    if(!event.isCancelled()){
 			for(int i=0; i<lines; i++){
-				ChatUtils.broadcastMessage(" ", !inGamePlayersOnly);
+				if(!sendToAdmins){
+					for(Player p : Bukkit.getOnlinePlayers()){
+						if(!pm.hasPermission(p, "clearchat.global.bypass", false)){
+							p.sendMessage(" ");
+						}
+					}
+				}else{
+					ChatUtils.broadcastMessage(" ", !inGamePlayersOnly);
+				}
 			}
 			if(withMessage){
 				ChatUtils.broadcastMessage(message, !inGamePlayersOnly);

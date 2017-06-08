@@ -23,7 +23,7 @@ public class MuteEvents implements Listener{
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e){
 		Player p = e.getPlayer();
-		if(api.isGlobalChatMuted() && !pm.hasPermisson(p, "clearchat.chatmute.bypass", false)){
+		if(api.isGlobalChatMuted() && !pm.hasPermisson(p, "clearchat.mutechat.bypass", false)){
 			e.setCancelled(true);
 			ChatUtils.send(p, Lang.PLAYER_GLOBAL_CHAT_DISABLED.toString(), true);
 		}else if(api.isPlayerChatDisabled(p)){

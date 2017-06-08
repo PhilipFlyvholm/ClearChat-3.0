@@ -1,6 +1,6 @@
 name: ClearChat
 main: me.phil14052.ClearChat3_0.ClearChat
-version: 3.0.0
+version: 3.1.0
 author: phil14052
 description: Clears the chat
 commands:

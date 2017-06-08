@@ -31,7 +31,7 @@ public class ChatToggleEvent extends Event implements Cancellable{
 	    return this.players;
 	}
 	/**
-	 * @return Use to get the first player or the player when using personal clear.
+	 * @return Use to get the first player or the player when using personal mute.
 	 */
 	public Player getFirstPlayer(){
 		return this.players.get(0);
