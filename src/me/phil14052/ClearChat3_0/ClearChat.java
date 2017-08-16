@@ -23,6 +23,7 @@ public class ClearChat extends JavaPlugin{
 	public CCAPI papi = null;
 	private static List<JavaPlugin> connectedPlugins = new ArrayList<JavaPlugin>();
 	public Files lang;
+	private boolean isPlaceholderAPIEnabled = false;
 	@Override
 	public void onEnable(){
 		plugin = this;
@@ -41,6 +42,13 @@ public class ClearChat extends JavaPlugin{
 		plugin.getCommand("clearchat").setExecutor(new MainCommand());
 		AutoClearManager.getInstance();
 		this.debug("Registed events and commands");
+		this.debug("Checking for PlaceholderAPI");
+		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+			isPlaceholderAPIEnabled = true;
+			this.debug("Found PlaceholderAPI");
+		}else{
+			this.debug("PlaceholderAPI not found. Skipping it.");
+		}
 		double time2 = System.currentTimeMillis();
 		double time3 = (time2-time)/1000;
 		this.debug("Took " + String.valueOf(time3) + " seconds to setup ClearChat 3.0");
@@ -59,6 +67,10 @@ public class ClearChat extends JavaPlugin{
 		if(plugin.getConfig().getBoolean("Debugmode")){
 			Bukkit.getConsoleSender().sendMessage(("&8[&3&lClearChat&8]: &c&lDebug &8-&7 " + message).replaceAll("&", "\u00A7"));
 		}
+	}
+	
+	public boolean isPlaceholderAPIEnabled(){
+		return isPlaceholderAPIEnabled;
 	}
 	
 	private void registerEvents(){

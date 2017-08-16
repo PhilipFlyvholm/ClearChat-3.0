@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="D:/Buildtools/1.9.2/craftbukkit-1.9.2.jar"/>
 	<classpathentry kind="lib" path="D:/#1Server/spigot-1.11.2.jar"/>
 	<classpathentry kind="lib" path="D:/#1Server/spigot-1.12.jar"/>
+	<classpathentry kind="lib" path="D:/#1Server/plugins/PlaceholderAPI-2.8.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

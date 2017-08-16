@@ -1,5 +1,6 @@
 package me.phil14052.ClearChat3_0.Utils;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.phil14052.ClearChat3_0.ClearChat;
 import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender;
 import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender_v1_10_R1;
@@ -40,6 +41,9 @@ public class ChatUtils {
 	
 	public static String prepareMessage(Player p, String string, boolean color){
 		PluginDescriptionFile pluginyml = plugin.getDescription();
+		if(plugin.isPlaceholderAPIEnabled()){
+			string = PlaceholderAPI.setPlaceholders(p, string);
+		}
 		string = replacePlaceholder(string, "{player_name}", p.getName());
 		string = replacePlaceholder(string, "{player_displayname}", p.getDisplayName());
 		string = replacePlaceholder(string, "{plugin_name}", pluginyml.getName());

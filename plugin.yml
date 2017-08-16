@@ -1,8 +1,9 @@
 name: ClearChat
 main: me.phil14052.ClearChat3_0.ClearChat
-version: 3.1.0
+version: 3.1.1
 author: phil14052
 description: Clears the chat
+softdepend: [PlaceholderAPI]
 commands:
   clearchat:
     description: ClearChat Plugin Main Command
