@@ -6,6 +6,7 @@ import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender;
 import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender_v1_10_R1;
 import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender_v1_11_R1;
 import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender_v1_12_R1;
+import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender_v1_14_R1;
 import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender_v1_9_R1;
 import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender_v1_9_R2;
 import me.phil14052.ClearChat3_0.Utils.JSON.JsonSender_vOther;
@@ -82,10 +83,14 @@ public class ChatUtils {
 		String version = "";
 		try {
 		     version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+		     plugin.debug("Version of spigot: " + version );
 		} catch (ArrayIndexOutOfBoundsException ex) {
 		ex.printStackTrace();
 		}
-		if(version.startsWith("v1_12_R1")){
+		if(version.startsWith("v1_14_R1")){
+			js = new JsonSender_v1_14_R1();
+		}
+		else if(version.startsWith("v1_12_R1")){
 			js = new JsonSender_v1_12_R1();
 		}
 		else if(version.startsWith("v1_11_R1")){

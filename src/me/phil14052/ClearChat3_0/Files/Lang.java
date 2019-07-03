@@ -43,6 +43,7 @@ public enum Lang {
     PLAYER_PLUGIN_HELP("player.plugin-help", "ARRAYLIST: &8&l&m--------------------- ,   , &3{plugin_name} - &8Help"
     		+ " , &3%suggest_command_/clearchat%&8 - Main command"
     		+ " , &3%suggest_command_/clearchat help% &8- Shows this"
+    		+ " , &3%suggest_command_/clearchat gui% &8- Shows a clearchat menu"
     		+ " , &3%suggest_command_/clearchat global%&3  [-a,-s]&8 - Main command"
     		+ " , &3%suggest_command_/clearchat personal%&3 [-m]&8 - Main command"
     		+ " , &3%suggest_command_/clearchat mutechat global%&8 - Main command"

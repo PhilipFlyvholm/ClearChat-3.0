@@ -7,6 +7,7 @@ import me.phil14052.ClearChat3_0.ClearChat;
 import me.phil14052.ClearChat3_0.API.CCAPI;
 import me.phil14052.ClearChat3_0.Files.Lang;
 import me.phil14052.ClearChat3_0.Managers.AutoClearManager;
+import me.phil14052.ClearChat3_0.Managers.GUIManager;
 import me.phil14052.ClearChat3_0.Managers.PermissionManager;
 import me.phil14052.ClearChat3_0.Utils.ChatUtils;
 import me.phil14052.ClearChat3_0.Utils.FastUtils;
@@ -28,6 +29,7 @@ public class MainCommand implements CommandExecutor{
 	private PluginDescriptionFile pluginYml = plugin.getDescription();
 	private CCAPI api = plugin.papi;
 	private PermissionManager pm = new PermissionManager();
+	private GUIManager guiManager = GUIManager.getInstance();
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -276,7 +278,6 @@ public class MainCommand implements CommandExecutor{
 					if(FastUtils.isGreaterThan(args.length, 2)){
 						if(!pm.hasPermission(sender, "clearchat.commands.mutechat.personal.other", true)) return false;
 						String playername = args[2];
-						@SuppressWarnings("deprecation")
 						Player p = Bukkit.getPlayer(playername);
 						if(p == null || !p.isOnline()){
 							String message = ChatUtils.color(Lang.FAILED_PREFIX.toString() + Lang.FAILED_PLAYER_NOT_FOUND.toString());
@@ -338,7 +339,12 @@ public class MainCommand implements CommandExecutor{
 			}
 			return false;
 		}else if(args[0].equalsIgnoreCase("gui")){
-			sender.sendMessage("Don't tell anyone!");
+			if(!(sender instanceof Player)){
+				ChatUtils.send(sender, Lang.PLAYER_ONLY.toString(), true);
+				return false;
+			}
+			Player p = (Player) sender;
+			/*sender.sendMessage("Don't tell anyone!");
 			sender.sendMessage("But there will come something amazing here");
 			sender.sendMessage("This message will delete itself in 10 sec because this IS TOP SECRET!!!!");
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
@@ -348,8 +354,9 @@ public class MainCommand implements CommandExecutor{
 					}
 					sender.sendMessage("*BOOM!!*");
 				}
-			}, 10*20);
-
+			}, 10*20);*/
+			guiManager.new MainGUI(p).open();
+			
 			return true;
 		}else{
 			ChatUtils.send(sender, Lang.INVALID_ARGS.toString(), true);

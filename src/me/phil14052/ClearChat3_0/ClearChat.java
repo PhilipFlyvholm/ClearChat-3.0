@@ -5,6 +5,7 @@ import java.util.List;
 
 import me.phil14052.ClearChat3_0.API.CCAPI;
 import me.phil14052.ClearChat3_0.Commands.MainCommand;
+import me.phil14052.ClearChat3_0.Events.InventoryEvents;
 import me.phil14052.ClearChat3_0.Events.MuteEvents;
 import me.phil14052.ClearChat3_0.Events.PlayerEvents;
 import me.phil14052.ClearChat3_0.Files.ConfigUpdater;
@@ -77,6 +78,7 @@ public class ClearChat extends JavaPlugin{
 	    PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new PlayerEvents(), this);
 		pm.registerEvents(new MuteEvents(), this);
+		pm.registerEvents(new InventoryEvents(), this);
 	}
 	
 	public static CCAPI getApi(JavaPlugin plugin){
