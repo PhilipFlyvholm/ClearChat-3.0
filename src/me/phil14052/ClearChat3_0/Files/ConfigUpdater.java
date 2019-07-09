@@ -18,7 +18,9 @@ public class ConfigUpdater extends YamlConfiguration {
 				.options()
 				.header("ClearChat! Version: "
 						+ pluginYml.getVersion()
-						+ " By Phil14052");
+						+ " By Phil14052"
+						+ "\r\nconvertToClearCommand.type can be 'global' or 'personal' (Global is default)"
+						+ "\r\nIf ingameplayersonly is set to true, then the console will not be cleared (true by default)");
 		plugin.getConfig().options().copyHeader();
 		plugin.getConfig().addDefault("Debugmode", false);
 		plugin.getConfig().addDefault("login.clearOnLogin", true);
@@ -40,7 +42,12 @@ public class ConfigUpdater extends YamlConfiguration {
 		plugin.getConfig().addDefault("clear.autoclear.message.message", "&8The chat was cleared automatically.");
 		plugin.getConfig().addDefault("other.helpmenu.needpermission", false);
 		plugin.getConfig().addDefault("other.helpmenu.permission", "clearchat.custom.help");
-		plugin.getConfig().addDefault("other.infomenu.convertToClearCommand", false);
+		plugin.getConfig().addDefault("other.infomenu.convertToClearCommand.enabled", false);
+		plugin.getConfig().addDefault("other.infomenu.convertToClearCommand.type", "global");
+		plugin.getConfig().addDefault("other.infomenu.convertToHelpCommand", false);
+		plugin.getConfig().addDefault("other.infomenu.convertToGUICommand", false);
+		plugin.getConfig().addDefault("GUI.needPermission", false);
+		plugin.getConfig().addDefault("GUI.permission", "clearchat.custom.gui");
 		plugin.getConfig().options().copyDefaults(true);
 		plugin.saveDefaultConfig();
 	}

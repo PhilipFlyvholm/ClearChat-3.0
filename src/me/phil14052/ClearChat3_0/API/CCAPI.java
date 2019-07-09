@@ -140,7 +140,7 @@ public class CCAPI {
 				}
 			}
 			if(withMessage){
-				ChatUtils.broadcastMessage(message, !inGamePlayersOnly);
+				ChatUtils.broadcastMessage(message, true);
 			}
 	    }
 	}

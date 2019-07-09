@@ -1,8 +1,8 @@
 name: ClearChat
 main: me.phil14052.ClearChat3_0.ClearChat
-version: 3.2.0
+version: 3.2.1
 author: phil14052
-description: Clears the chat
+description: ClearChat controls everything on your server with clearing the chat. It can help you with auto clearing, join cleaning, etc. It also has an API, so servers can add their own clears.
 softdepend: [PlaceholderAPI]
 commands:
   clearchat:

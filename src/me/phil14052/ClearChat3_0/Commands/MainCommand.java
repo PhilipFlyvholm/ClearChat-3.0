@@ -34,11 +34,44 @@ public class MainCommand implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(FastUtils.isLessThan(args.length, 1)){
-			if(plugin.getConfig().getBoolean("other.infomenu.convertToClearCommand")){				
-				boolean inGamePlayersOnly = plugin.getConfig().getBoolean("clear.global.ingammeplayersonly");
-				String message = ChatUtils.prepareMessage(sender, Lang.PREFIX.toString() + Lang.PLAYER_GLOBAL_CLEAR_DEFAULT.toString(), true);
-				api.clearChatGlobal(inGamePlayersOnly, plugin.getConfig().getInt("clear.global.lines"),  message);
-				return true;
+			if(plugin.getConfig().getBoolean("other.infomenu.convertToClearCommand.enabled")|| plugin.getConfig().getBoolean("other.infomenu.convertToClearCommand")){
+				String clearType = plugin.getConfig().getString("other.infomenu.convertToClearCommand.type").toLowerCase();
+				plugin.debug("InfoMenu converted to clearCommand - Type: " + clearType);
+				if(clearType.equals("personal")){
+					if(sender instanceof Player){
+
+						plugin.debug("Player found");
+						Player p = (Player) sender;
+						p.performCommand("cc personal");
+						return true;
+					}
+				}else{
+					if(sender instanceof Player){
+						plugin.debug("Player found");
+						Player p = (Player) sender;
+						p.performCommand("cc global");
+						return true;
+					}else{
+						plugin.debug("Console found");
+						boolean inGamePlayersOnly = plugin.getConfig().getBoolean("clear.global.ingammeplayersonly");
+						String message = ChatUtils.prepareMessage(sender, Lang.PREFIX.toString() + Lang.PLAYER_GLOBAL_CLEAR_DEFAULT.toString(), true);
+						api.clearChatGlobal(inGamePlayersOnly, plugin.getConfig().getInt("clear.global.lines"),  message);
+						return true;
+					}
+				}
+				
+			}else if(plugin.getConfig().getBoolean("other.infomenu.convertToHelpCommand")){
+				if(sender instanceof Player){
+					((Player) sender).performCommand("cc help");
+					return true;
+				}
+				
+			}else if(plugin.getConfig().getBoolean("other.infomenu.convertToGUICommand")){
+				if(sender instanceof Player){
+					((Player) sender).performCommand("cc gui");
+					return true;
+				}
+				
 			}
 			List<String> info = Lang.PLAYER_PLUGIN_INFO.toStringList();
 			String ppart = "";
@@ -344,17 +377,7 @@ public class MainCommand implements CommandExecutor{
 				return false;
 			}
 			Player p = (Player) sender;
-			/*sender.sendMessage("Don't tell anyone!");
-			sender.sendMessage("But there will come something amazing here");
-			sender.sendMessage("This message will delete itself in 10 sec because this IS TOP SECRET!!!!");
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-				public void run() {
-					for(int i=0; i<100; i++){
-						sender.sendMessage(" ");
-					}
-					sender.sendMessage("*BOOM!!*");
-				}
-			}, 10*20);*/
+			if(plugin.getConfig().getBoolean("GUI.needPermission") && !pm.hasPermisson(p, plugin.getConfig().getString("GUI.permission"), true)) return false;
 			guiManager.new MainGUI(p).open();
 			
 			return true;
