@@ -13,6 +13,7 @@ import me.phil14052.ClearChat3_0.Files.Files;
 import me.phil14052.ClearChat3_0.Files.Lang;
 import me.phil14052.ClearChat3_0.Files.LangFileUpdater;
 import me.phil14052.ClearChat3_0.Managers.AutoClearManager;
+import me.phil14052.ClearChat3_0.Utils.Metrics.MetricsLite;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -50,9 +51,11 @@ public class ClearChat extends JavaPlugin{
 		}else{
 			this.debug("PlaceholderAPI not found. Skipping it.");
 		}
+		new MetricsLite(this);
 		double time2 = System.currentTimeMillis();
 		double time3 = (time2-time)/1000;
 		this.debug("Took " + String.valueOf(time3) + " seconds to setup ClearChat 3.0");
+		
 	}
 	
 	@Override
