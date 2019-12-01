@@ -7,7 +7,8 @@
 	<classpathentry kind="lib" path="D:/Minecraft Servere/#1Server/spigot-1.9.2.jar"/>
 	<classpathentry kind="lib" path="D:/Minecraft Servere/#1Server/spigot-1.11.2.jar"/>
 	<classpathentry kind="lib" path="D:/Minecraft Servere/#1Server/spigot-1.12.jar"/>
-	<classpathentry kind="lib" path="D:/Minecraft Servere/#1Server/plugins/PlaceholderAPI-2.8.2.jar"/>
+	<classpathentry kind="lib" path="D:/Minecraft Servere/#1Server/plugins/PlaceholderAPI-2.10.3.jar"/>
 	<classpathentry kind="lib" path="D:/Minecraft Servere/#1Server/spigot-1.14.3.jar"/>
+	<classpathentry kind="lib" path="D:/Minecraft Servere/1.8 test server/spigot.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

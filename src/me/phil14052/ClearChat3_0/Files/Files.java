@@ -196,11 +196,21 @@ public class Files extends YamlConfiguration
     {
         try
         {
-            FileUtils.copyInputStreamToFile(plugin.getResource(resourcePath), new File(parent, resourcePath));
+        	FileUtils.copyInputStreamToFile(plugin.getResource(resourcePath), new File(parent, resourcePath));
         }
         catch (IOException e)
         {
             plugin.getLogger().log(Level.SEVERE, "Error copying file with path " + resourcePath + "!");
+        }
+        catch (NoClassDefFoundError e) {
+        	try
+            {
+            	org.apache.commons.io.FileUtils.copyInputStreamToFile(plugin.getResource(resourcePath), new File(parent, resourcePath));
+            }
+            catch (IOException IOe)
+            {
+                plugin.getLogger().log(Level.SEVERE, "Error copying file with path " + resourcePath + "!");
+            }
         }
     }
 }

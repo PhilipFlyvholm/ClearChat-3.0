@@ -29,7 +29,7 @@ public class GUIManager {
 	private final ItemStack noPermissionItem = new ItemLib(XMaterial.BARRIER.parseMaterial(), 1, (short) 0, Lang.GUI_NO_PERMISSION_TITLE.toString(), Arrays.asList(Lang.GUI_NO_PERMISSION_LORE.toString())).create();
 	
 	public class MainGUI{
-		private CustomHolder ch = new CustomHolder(27, Lang.GUI_PREFIX.toString() + Lang.GUI_HOME_TITLE.toString());	
+		private CustomHolder ch = new CustomHolder(27, Lang.GUI_PREFIX.toString() + Lang.GUI_HOME_TITLE.toString(),Lang.GUI_HOME_TITLE.toString());	
 		private Player player;
 		public MainGUI(Player p){
 			player = p;
@@ -84,7 +84,7 @@ public class GUIManager {
 	}
 	
 	public class ClearGUI{
-		private CustomHolder ch = new CustomHolder(27, Lang.GUI_PREFIX.toString() + Lang.GUI_CLEAR_MENU_TITLE.toString());	
+		private CustomHolder ch = new CustomHolder(27, Lang.GUI_PREFIX.toString() + Lang.GUI_CLEAR_MENU_TITLE.toString(), Lang.GUI_CLEAR_MENU_TITLE.toString());	
 		private Player player;
 		public ClearGUI(Player p){
 			player = p;
@@ -200,7 +200,7 @@ public class GUIManager {
 	}
 	
 	public class MuteGUI{
-		private CustomHolder ch = new CustomHolder(27, Lang.GUI_PREFIX.toString() + Lang.GUI_MUTE_MENU_TITLE.toString());	
+		private CustomHolder ch = new CustomHolder(27, Lang.GUI_PREFIX.toString() + Lang.GUI_MUTE_MENU_TITLE.toString(), Lang.GUI_MUTE_MENU_TITLE.toString());	
 		private Player player;
 		public MuteGUI(Player p){
 			player = p;

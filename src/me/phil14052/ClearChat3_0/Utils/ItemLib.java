@@ -156,9 +156,14 @@ public class ItemLib {
 		if(lore != null){
 			im.setLore(lore);
 		}
-		Damageable damageMeta = (Damageable) im;
-		damageMeta.setDamage(damagevalue);
-		is.setItemMeta((ItemMeta) damageMeta);
+		try {
+			Damageable damageMeta = (Damageable) im;
+			damageMeta.setDamage(damagevalue);
+			is.setItemMeta((ItemMeta) damageMeta);
+		} catch(NoClassDefFoundError e) {
+			is.setDurability(damagevalue);
+			is.setItemMeta(im);
+		}
 		return is;
 	}
 	
