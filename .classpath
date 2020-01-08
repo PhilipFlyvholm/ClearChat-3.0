@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="D:/Minecraft Servere/#1Server/plugins/PlaceholderAPI-2.10.3.jar"/>
 	<classpathentry kind="lib" path="D:/Minecraft Servere/#1Server/spigot-1.14.3.jar"/>
 	<classpathentry kind="lib" path="D:/Minecraft Servere/1.8 test server/spigot.jar"/>
+	<classpathentry kind="lib" path="D:/Minecraft Servere/#1Server/spigot-1.15.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
