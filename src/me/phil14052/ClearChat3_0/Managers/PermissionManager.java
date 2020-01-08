@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class PermissionManager {
-	public boolean hasPermisson(Player p, String permission, boolean withMessage){			
+	public boolean hasPermission(Player p, String permission, boolean withMessage){			
 		String permissionClone = permission;
 		if(permission.contains(".")){
 			int index = permission.lastIndexOf(".");
@@ -28,7 +28,7 @@ public class PermissionManager {
 	public boolean hasPermission(CommandSender sender, String permission, boolean withMessage){
 		if(sender instanceof Player){
 			Player p = (Player) sender;
-			if(hasPermisson(p, permission, withMessage)){
+			if(hasPermission(p, permission, withMessage)){
 				return true;
 			}else{
 				return false;

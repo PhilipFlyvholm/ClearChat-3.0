@@ -3,8 +3,13 @@ package me.phil14052.ClearChat3_0;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import me.phil14052.ClearChat3_0.API.CCAPI;
 import me.phil14052.ClearChat3_0.Commands.MainCommand;
+import me.phil14052.ClearChat3_0.Commands.MainTabComplete;
 import me.phil14052.ClearChat3_0.Events.InventoryEvents;
 import me.phil14052.ClearChat3_0.Events.MuteEvents;
 import me.phil14052.ClearChat3_0.Events.PlayerEvents;
@@ -14,10 +19,6 @@ import me.phil14052.ClearChat3_0.Files.Lang;
 import me.phil14052.ClearChat3_0.Files.LangFileUpdater;
 import me.phil14052.ClearChat3_0.Managers.AutoClearManager;
 import me.phil14052.ClearChat3_0.Utils.Metrics.MetricsLite;
-
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class ClearChat extends JavaPlugin{
 
@@ -42,6 +43,7 @@ public class ClearChat extends JavaPlugin{
 		this.debug("Api is now setup");
 		registerEvents();
 		plugin.getCommand("clearchat").setExecutor(new MainCommand());
+		plugin.getCommand("clearchat").setTabCompleter(new MainTabComplete());
 		AutoClearManager.getInstance();
 		this.debug("Registed events and commands");
 		this.debug("Checking for PlaceholderAPI");

@@ -91,7 +91,7 @@ public class GUIManager {
 			for(int i = 0; i < 27; i++){
 				Icon icon = new Icon(backgroundItem);
 				if(i == 10){
-					if(!pm.hasPermisson(p, "clearchat.commands.personal", false)){
+					if(!pm.hasPermission(p, "clearchat.commands.personal", false)){
 						icon = new Icon(noPermissionItem);
 					}else{
 						List<String> personalLore = Arrays.asList(Lang.GUI_CLEAR_PERSONAL_BUTTON_LORE.toString());
@@ -109,7 +109,7 @@ public class GUIManager {
 					}
 				}
 				if(i == 11){
-					if(!pm.hasPermisson(p, "clearchat.commands.personal", false)){
+					if(!pm.hasPermission(p, "clearchat.commands.personal", false)){
 						icon = new Icon(noPermissionItem);
 					}else{
 						List<String> personalLore = Arrays.asList(Lang.GUI_CLEAR_PERSONAL_SILENT_BUTTON_LORE.toString());
@@ -126,7 +126,7 @@ public class GUIManager {
 						});
 					}
 				}else if(i == 13){
-					if(!pm.hasPermisson(p, "clearchat.commands.global", false)){
+					if(!pm.hasPermission(p, "clearchat.commands.global", false)){
 						icon = new Icon(noPermissionItem);
 					}else{
 						List<String> globalLore = Arrays.asList(Lang.GUI_CLEAR_GLOBAL_BUTTON_LORE.toString());
@@ -143,7 +143,7 @@ public class GUIManager {
 						});
 					}
 				}else if(i == 14){
-					if(!pm.hasPermisson(p, "clearchat.commands.global.anonymous", false)){
+					if(!pm.hasPermission(p, "clearchat.commands.global.anonymous", false)){
 						icon = new Icon(noPermissionItem);
 					}else{
 						List<String> globalLore = Arrays.asList(Lang.GUI_CLEAR_GLOBAL_ANON_BUTTON_LORE.toString());
@@ -160,7 +160,7 @@ public class GUIManager {
 						});
 					}
 				}else if(i == 15){
-					if(!pm.hasPermisson(p, "clearchat.commands.global.silent", false)){
+					if(!pm.hasPermission(p, "clearchat.commands.global.silent", false)){
 						icon = new Icon(noPermissionItem);
 					}else{
 						List<String> globalLore = Arrays.asList(Lang.GUI_CLEAR_GLOBAL_SILENT_BUTTON_LORE.toString());
@@ -207,7 +207,7 @@ public class GUIManager {
 			for(int i = 0; i < 27; i++){
 				Icon icon = new Icon(backgroundItem);
 				if(i == 12){
-					if(!pm.hasPermisson(p, "clearchat.commands.mutechat", false) || !pm.hasPermisson(p, "clearchat.commands.mutechat.personal", false)){
+					if(!pm.hasPermission(p, "clearchat.commands.mutechat", false) || !pm.hasPermission(p, "clearchat.commands.mutechat.personal", false)){
 						icon = new Icon(noPermissionItem);
 					}else{
 						ItemStack item;
@@ -237,7 +237,7 @@ public class GUIManager {
 						});
 					}
 				}else if(i == 14){
-					if(!pm.hasPermisson(p, "clearchat.commands.mutechat", false) || !pm.hasPermisson(p, "clearchat.commands.mutechat.global", false)){
+					if(!pm.hasPermission(p, "clearchat.commands.mutechat", false) || !pm.hasPermission(p, "clearchat.commands.mutechat.global", false)){
 						icon = new Icon(noPermissionItem);
 					}else{
 						ItemStack item;

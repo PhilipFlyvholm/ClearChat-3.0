@@ -377,7 +377,7 @@ public class MainCommand implements CommandExecutor{
 				return false;
 			}
 			Player p = (Player) sender;
-			if(plugin.getConfig().getBoolean("GUI.needPermission") && !pm.hasPermisson(p, plugin.getConfig().getString("GUI.permission"), true)) return false;
+			if(plugin.getConfig().getBoolean("GUI.needPermission") && !pm.hasPermission(p, plugin.getConfig().getString("GUI.permission"), true)) return false;
 			guiManager.new MainGUI(p).open();
 			
 			return true;
