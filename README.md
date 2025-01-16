@@ -6,9 +6,6 @@ INFO: https://www.spigotmc.org/resources/clearchat-3-2-placeholderapi-gui-suppor
 ## Preview:
 ![alt tag](http://i.imgur.com/dhOfeaj.png)
 
-
-https://www.paypal.me/PhilipFlyvholm
-
 ## License:
 Copyright © 2016-2019 Philip Flyvholm
 
